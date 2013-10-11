@@ -5,11 +5,11 @@
 %global jansi_jar /usr/share/java/jansi.jar
 %global scaladir %{_datadir}/scala
 %global gitsha 60d462ef6e0dba5f9a7c4cc81255fcb9fba7939a
-%global gitdate 20130530
+%global gitdate 20130927
 %global bootstrap_build 1
 
 Name:           scala
-Version:        2.10.2
+Version:        2.10.3
 Release:        1%{?dist}
 Summary:        A hybrid functional/object-oriented language for the JVM
 BuildArch:      noarch
@@ -40,7 +40,7 @@ Patch6:         scala-2.10-jline.patch
 # non-optimized builds (we can't do optimized builds due to another bug):
 # http://grokbase.com/t/gg/scala-internals/1347g1jahq/2-10-x-bc-test-fails
 Patch7:         scala-2.10.1-bc.patch
-Patch8:         scala-2.10.2-build_xml_moby.patch
+Patch8:         scala-2.10.3-build_xml.patch
 
 Source21:       scala.keys
 Source22:       scala.mime
@@ -273,6 +273,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %doc docs/LICENSE
 
 %changelog
+* Thu Oct 10 2013 Jochen Schmitt <Jochen herr-schmitt de> - 2.10.3-1
+- New upstream release
+
 * Thu Sep 26 2013 William Benton <willb@redhat.com> - 2.10.2-1
 - upstream version 2.10.2
 

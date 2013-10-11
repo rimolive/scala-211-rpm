@@ -1,13 +1,15 @@
 #!/bin/sh
 set -x
 
-VER=$1
+VER=$(fedpkg verrel | sed -e 's/^scala\-\(.*\)\-.*$/\1/')
+
 FNS=scala-$VER
 
 rm -rf $FNS/
 git clone git://github.com/scala/scala.git $FNS
 cd $FNS
 git checkout v$VER
+git show v$VER >../gitdate.txt
 cd ..
 tar -zcf $FNS.tgz --exclude $FNS/.git $FNS/
 cd $FNS
