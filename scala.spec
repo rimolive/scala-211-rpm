@@ -10,7 +10,7 @@
 
 Name:           scala
 Version:        2.10.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A hybrid functional/object-oriented language for the JVM
 BuildArch:      noarch
 Group:          Development/Languages
@@ -29,7 +29,7 @@ Source2:        scala-%{version}-bootstrap.tgz
 # Change the default classpath (SCALA_HOME)
 Patch1:		scala-2.10.0-tooltemplate.patch
 # Use system jline2 instead of bundled jline2
-Patch2:	        scala-2.10.2-use_system_jline.patch
+Patch2:	        scala-2.10.3-use_system_jline.patch
 # change org.scala-lang jline in org.sonatype.jline jline
 Patch3:	        scala-2.10.0-compiler-pom.patch
 # Patch Swing module for JDK 1.7
@@ -273,6 +273,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %doc docs/LICENSE
 
 %changelog
+* Sun Oct 13 2013 Jochen Schmitt <Jochen herr-schmitt de> - 2.10.3-2
+- Fix REPL crash issue when entering an exclaimation mark (#890069)
+
 * Thu Oct 10 2013 Jochen Schmitt <Jochen herr-schmitt de> - 2.10.3-1
 - New upstream release
 
