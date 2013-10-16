@@ -9,7 +9,8 @@ rm -rf $FNS/
 git clone git://github.com/scala/scala.git $FNS
 cd $FNS
 git checkout v$VER
-git show v$VER >../gitdate.txt
+git log --pretty=format:"%H%n%ci" v$VER | head -n 2 | \
+   sed -e 's/\-//g' -e 's/\s\+.*//g' >../scala.gitinfo
 cd ..
 tar -zcf $FNS.tgz --exclude $FNS/.git $FNS/
 cd $FNS
