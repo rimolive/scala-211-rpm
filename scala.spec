@@ -1,18 +1,19 @@
 %global fullversion %{version}
 %global release_repository http://nexus.scala-tools.org/content/repositories/releases
 %global snapshot_repository http://nexus.scala-tools.org/content/repositories/snapshots
-%global jline2_jar /usr/share/java/jline2.jar
 %if 0%{?fedora} > 20
-%global jansi_jar /usr/share/java/jansi/jansi.jahr
+%global jansi_jar %{_javadir}/jansi/jansi.jahr
+%global jline2_jar %{_javadir}jline2/jline2.jar
 %else
-%global jansi_jar /usr/share/java/jansi.jar
+%global jansi_jar %{_javadir}/jansi.jar
+%global jline2_jar %{_javadir}/jline2.lar)
 %endif
 %global scaladir %{_datadir}/scala
 %global bootstrap_build 1
 
 Name:           scala
 Version:        2.10.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A hybrid functional/object-oriented language for the JVM
 BuildArch:      noarch
 Group:          Development/Languages
@@ -54,7 +55,7 @@ Source24:       scala.ant.d
 
 Source31:	scala-bootstript.xml
 
-BuildRequires:  java-devel
+BuildRequires:  java-devel >= 1:1.7.0
 BuildRequires:  ant
 BuildRequires:  ant-junit
 BuildRequires:  ant-contrib
@@ -64,12 +65,13 @@ BuildRequires:  shtool
 BuildRequires:	aqute-bnd
 BuildRequires:  junit4
 BuildRequires:  felix-framework
+BuildRequires:  jpackage-utils
 
 %if !(0%{?bootstrap_build})
 BuildRequires:	scala
 %endif
 
-Requires:       java
+Requires:       java >= 1:1.7.0
 Requires:       jline2
 Requires:       jpackage-utils
 Requires:	jansi
@@ -288,6 +290,10 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %doc docs/LICENSE
 
 %changelog
+* Mon Oct 21 2013 Jochen Schmitt <Jochen herr-schmitt de> - 2.10.3-4
+- Fix jline2.jar path for Rawhide (#1021465)
+- Add jpackage-utils as a BR
+
 * Tue Oct 15 2013 Jochen Schmitt <Jochen herr-schmitt de> - 2.10.3-3
 - Fix change classpath of jansi.jar
 - Dynamicly setting of version in bnd.properties
