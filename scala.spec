@@ -2,18 +2,18 @@
 %global release_repository http://nexus.scala-tools.org/content/repositories/releases
 %global snapshot_repository http://nexus.scala-tools.org/content/repositories/snapshots
 %if 0%{?fedora} > 20
-%global jansi_jar %{_javadir}/jansi/jansi.jahr
-%global jline2_jar %{_javadir}jline2/jline2.jar
+%global jansi_jar %{_javadir}/jansi/jansi.jar
+%global jline2_jar %{_javadir}/jline2/jline2.jar
 %else
 %global jansi_jar %{_javadir}/jansi.jar
-%global jline2_jar %{_javadir}/jline2.lar)
+%global jline2_jar %{_javadir}/jline2.jar
 %endif
 %global scaladir %{_datadir}/scala
 %global bootstrap_build 1
 
 Name:           scala
 Version:        2.10.3
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        A hybrid functional/object-oriented language for the JVM
 BuildArch:      noarch
 Group:          Development/Languages
@@ -290,6 +290,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %doc docs/LICENSE
 
 %changelog
+* Tue Oct 22 2013 Jochen Schmitt <Jochen herr-schmitt de> - 2.10.3-5
+- Fix typo
+
 * Mon Oct 21 2013 Jochen Schmitt <Jochen herr-schmitt de> - 2.10.3-4
 - Fix jline2.jar path for Rawhide (#1021465)
 - Add jpackage-utils as a BR
