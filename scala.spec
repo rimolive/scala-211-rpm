@@ -3,7 +3,7 @@
 %global snapshot_repository http://nexus.scala-tools.org/content/repositories/snapshots
 %if 0%{?fedora} > 20
 %global jansi_jar %{_javadir}/jansi/jansi.jar
-%global jline2_jar %{_javadir}/jline2/jline2.jar
+%global jline2_jar %{_javadir}/jline/jline.jar
 %else
 %global jansi_jar %{_javadir}/jansi.jar
 %global jline2_jar %{_javadir}/jline2.jar
@@ -13,7 +13,7 @@
 
 Name:           scala
 Version:        2.10.3
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        A hybrid functional/object-oriented language for the JVM
 BuildArch:      noarch
 Group:          Development/Languages
@@ -59,7 +59,11 @@ BuildRequires:  java-devel >= 1:1.7.0
 BuildRequires:  ant
 BuildRequires:  ant-junit
 BuildRequires:  ant-contrib
+%if 0%{?fedora} > 20
+BuildRequires:  jline >= 2.10
+%else
 BuildRequires:  jline2
+%endif
 BuildRequires:  javapackages-tools
 BuildRequires:  shtool
 BuildRequires:	aqute-bnd
@@ -72,9 +76,14 @@ BuildRequires:	scala
 %endif
 
 Requires:       java >= 1:1.7.0
-Requires:       jline2
 Requires:       jpackage-utils
 Requires:	jansi
+
+%if 0%{?fedora} >= 20
+Requires:       jline >= 2.10
+%else
+Requires:       jline2
+%endif
 
 Requires:	%{jansi_jar}
 Requires:       %{jline2_jar}
@@ -142,6 +151,8 @@ pushd lib
 #  scala-compiler.jar
 #  scala-library-src.jar
 #  scala-library.jar
+   rm -rf jline.jar
+   ln -sf %{jline2_jar} jline.jar
 %if !(0%{?bootstrap_build})
     rm -rf scala-compiler.jar
     ln -s $(build-classpath scala/scala-compiler.jar) scala-compiler.jar
@@ -290,6 +301,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %doc docs/LICENSE
 
 %changelog
+* Wed Oct 30 2013 Jochen Schmitt <Jochen herr-schmitt de> - 2.10.3-6
+- Jline2 is now jline in Rawhide
+
 * Tue Oct 22 2013 Jochen Schmitt <Jochen herr-schmitt de> - 2.10.3-5
 - Fix typo
 
