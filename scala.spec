@@ -134,7 +134,7 @@ the Scala programming language
 # %patch5 -p1 -b .bndx
 %patch6 -p1 -b .rvk
 %patch7 -p1 -b .bc
-%patch8 -p1
+%patch8 -p1 -b .bld
 
 pushd src
 rm -rf jline
