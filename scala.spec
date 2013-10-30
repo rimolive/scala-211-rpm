@@ -151,8 +151,6 @@ pushd lib
 #  scala-compiler.jar
 #  scala-library-src.jar
 #  scala-library.jar
-   rm -rf jline.jar
-   ln -sf %{jline2_jar} jline.jar
 %if !(0%{?bootstrap_build})
     rm -rf scala-compiler.jar
     ln -s $(build-classpath scala/scala-compiler.jar) scala-compiler.jar
@@ -180,6 +178,8 @@ tar -xzvf %{SOURCE2}
 %else
 %global do_bootstrap %{nil}
 %endif
+
+sed -i -e 's!@JLINE@!%{jline2_jar}!g' build.xml
 
 echo echo $(head -n 1 %{SOURCE3}) > tools/get-scala-commit-sha
 echo echo $(tail -n 1 %{SOURCE3}) > tools/get-scala-commit-date
