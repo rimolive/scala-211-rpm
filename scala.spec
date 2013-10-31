@@ -1,11 +1,14 @@
 %global fullversion %{version}
 %global release_repository http://nexus.scala-tools.org/content/repositories/releases
 %global snapshot_repository http://nexus.scala-tools.org/content/repositories/snapshots
-%if 0%{?fedora} > 20
+%if 0%{?fedora} > 19
 %global jansi_jar %{_javadir}/jansi/jansi.jar
-%global jline2_jar %{_javadir}/jline/jline.jar
 %else
 %global jansi_jar %{_javadir}/jansi.jar
+%endif
+%if 0%{?fedora} > 20
+%global jline2_jar %{_javadir}/jline/jline.jar
+%else
 %global jline2_jar %{_javadir}/jline2.jar
 %endif
 %global scaladir %{_datadir}/scala
@@ -303,6 +306,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %changelog
 * Wed Oct 30 2013 Jochen Schmitt <Jochen herr-schmitt de> - 2.10.3-6
 - Jline2 is now jline in Rawhide
+- Fix an issue with jansi.jar in F-20 (#1025062)
 
 * Tue Oct 22 2013 Jochen Schmitt <Jochen herr-schmitt de> - 2.10.3-5
 - Fix typo
