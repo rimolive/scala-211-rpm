@@ -16,7 +16,7 @@
 
 Name:           scala
 Version:        2.10.3
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        A hybrid functional/object-oriented language for the JVM
 BuildArch:      noarch
 Group:          Development/Languages
@@ -82,7 +82,7 @@ Requires:       java >= 1:1.7.0
 Requires:       jpackage-utils
 Requires:	jansi
 
-%if 0%{?fedora} >= 20
+%if 0%{?fedora} > 20
 Requires:       jline >= 2.10
 %else
 Requires:       jline2
@@ -304,6 +304,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %doc docs/LICENSE
 
 %changelog
+* Thu Oct 31 2013 Jochen Schmitt <Jochen herr-schmitt de> - 2.10.3-7
+- Fix wrong condition for jline Req.
+
 * Wed Oct 30 2013 Jochen Schmitt <Jochen herr-schmitt de> - 2.10.3-6
 - Jline2 is now jline in Rawhide
 - Fix an issue with jansi.jar in F-20 (#1025062)
