@@ -16,7 +16,7 @@
 
 Name:           scala
 Version:        2.10.3
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        A hybrid functional/object-oriented language for the JVM
 BuildArch:      noarch
 Group:          Development/Languages
@@ -91,6 +91,11 @@ Requires:       jline2
 Requires:	%{jansi_jar}
 Requires:       %{jline2_jar}
 
+%{?filter_setup:
+%filter_from_requires /ant/d;
+%filter_setup
+}
+
 %description
 Scala is a general purpose programming language designed to express common
 programming patterns in a concise, elegant, and type-safe way. It smoothly
@@ -122,6 +127,7 @@ Group:          Development/Languages
 # Otherwise it will pick up some perl module
 Autoprov:       0
 Requires:       scala = %{version}-%{release}
+Requires:       ant
 
 %description examples
 Scala is a general purpose programming language for the JVM that blends
@@ -304,6 +310,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %doc docs/LICENSE
 
 %changelog
+* Wed Nov 27 2013 Jochen Schmitt <Jochen herr-schmitt de> - 2.10.3-8
+- Filter osgi(org.apache.ant) Req. (#975598)
+
 * Thu Oct 31 2013 Jochen Schmitt <Jochen herr-schmitt de> - 2.10.3-7
 - Fix wrong condition for jline Req.
 
