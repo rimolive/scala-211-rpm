@@ -13,10 +13,15 @@
 %endif
 %global scaladir %{_datadir}/scala
 %global bootstrap_build 1
+%if 0%{?fedora} > 19
+%global apidoc %{_docdir}/%{name}-apidoc
+%else
+%global apidoc %{_docdir}/%{name}-apidoc-%{version}
+%endif
 
 Name:           scala
 Version:        2.10.3
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        A hybrid functional/object-oriented language for the JVM
 BuildArch:      noarch
 Group:          Development/Languages
@@ -111,6 +116,16 @@ Scala is a general purpose programming language for the JVM that blends
 object-oriented and functional programming. This package provides
 reference and API documentation for the Scala programming language.
 
+%package swing
+Summary:        The swing library for the scala programming languages
+Group:          Developement/Libraries
+Requires:       scala = %{version}-%{release}
+
+%description swing
+This package ontains the swing library for the scala programming lauguages. This library is
+required to develope GUI-releate applications in scala. The release provided by this package
+is not the original version from upstream because this version is not compatible with JDK-1.7.
+
 %package -n ant-scala
 Summary:        Development files for Scala
 Group:          Development/Languages
@@ -133,6 +148,16 @@ Requires:       ant
 Scala is a general purpose programming language for the JVM that blends
 object-oriented and functional programming. This package contains examples for
 the Scala programming language
+
+%package swing-examples
+Summary:        Examples for the Scala Swing library
+Group:          Development/Libraries
+Requires:       scala = %{version}-%{release}
+Requires:       ant
+
+%description swing-examples
+This package contains examples for the Swing library of the Scala language which is required
+to create GUI applications in the Scala programming language. 
 
 %prep
 %setup -q 
@@ -282,34 +307,64 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %postun
 update-mime-database %{_datadir}/mime &> /dev/null || :
 
-
 %files
+%defattr(-,root,root,-)
 %{_bindir}/*
-%{_javadir}/scala
-%dir %{_datadir}/scala
-%{_datadir}/scala/lib
+%dir %{_javadir}/%{name}
+%{_javadir}/%{name}/%{name}-compiler.jar
+%{_javadir}/%{name}/%{name}-library.jar
+%{_javadir}/%{name}/%{name}-reflect.jar
+%{_javadir}/%{name}/scalap.jar
+%dir %{_datadir}/%{name}
+%{_datadir}/%{name}/lib/j*.jar
+%{_datadir}/%{name}/lib/%{name}-compiler.jar
+%{_datadir}/%{name}/lib/%{name}-library.jar
+%{_datadir}/%{name}/lib/%{name}-reflect.jar
+%{_datadir}/%{name}/lib/scalap.jar
 %{_datadir}/mime-info/*
 %{_datadir}/mime/packages/*
 %{_mandir}/man1/*
-%{_mavenpomdir}/JPP.%{name}-*.pom
+%{_mavenpomdir}/JPP.%{name}-%{name}-compiler.pom
+%{_mavenpomdir}/JPP.%{name}-%{name}-library.pom
+%{_mavenpomdir}/JPP.%{name}-%{name}-reflect.pom
+%{_mavenpomdir}/JPP.%{name}-scalap.pom
 %{_mavendepmapfragdir}/%{name}
 %doc docs/LICENSE
 
+%files swing
+%defattr(-,root,root,-)
+%{_datadir}/%{name}/lib/%{name}-swing.jar
+%{_javadir}/%{name}/%{name}-swing.jar
+%{_mavenpomdir}/JPP.%{name}-%{name}-swing.pom
+%doc docs/LICENSE
+
 %files -n ant-scala
+%defattr(-,root,root,-)
 # Following is plain config because the ant task classpath could change from
 # release to release
 %config %{_sysconfdir}/ant.d/*
 %doc docs/LICENSE
 
 %files apidoc
+%defattr(-,root,root,-)
 %doc build/scaladoc/library/*
 %doc docs/LICENSE
 
 %files examples
+%defattr(-,root,root,-)
 %{_datadir}/scala/examples
+%exclude %{_datadir}/scala/examples/swing 
+%doc docs/LICENSE
+
+%files swing-examples
+%defattr(-,root,root,-)
+%{_datadir}/scala/examples/swing 
 %doc docs/LICENSE
 
 %changelog
+* Sun Dec  8 2013 Jochen Schmitt <Jochen herr-schmitt de> - 2.10.3-9
+- Put the swing library into a seperate subpackage
+
 * Wed Nov 27 2013 Jochen Schmitt <Jochen herr-schmitt de> - 2.10.3-8
 - Filter osgi(org.apache.ant) Req. (#975598)
 
