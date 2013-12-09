@@ -21,7 +21,7 @@
 
 Name:           scala
 Version:        2.10.3
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        A hybrid functional/object-oriented language for the JVM
 BuildArch:      noarch
 Group:          Development/Languages
@@ -45,7 +45,7 @@ Patch1:		scala-2.10.0-tooltemplate.patch
 # Use system jline2 instead of bundled jline2
 Patch2:	        scala-2.10.3-use_system_jline.patch
 # change org.scala-lang jline in org.sonatype.jline jline
-Patch3:	        scala-2.10.0-compiler-pom.patch
+Patch3:	        scala-2.10.3-compiler-pom.patch
 # Patch Swing module for JDK 1.7
 Patch4:	        scala-2.10.2-java7.patch
 # fix incompatibilities with JLine 2.7
@@ -163,7 +163,7 @@ to create GUI applications in the Scala programming language.
 %setup -q 
 %patch1 -p1 -b .tool
 %patch2 -p1 -b .sysjline
-# %patch3 -p0 -b .compiler-pom
+%patch3 -p1 -b .compiler-pom
 %patch4 -p1 -b .jdk7
 # %patch5 -p1 -b .bndx
 %patch6 -p1 -b .rvk
@@ -362,6 +362,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %doc docs/LICENSE
 
 %changelog
+* Mon Dec  9 2013 Jochen Schmitt <Jochen herr-schmitt de> - 2.10.3-10
+- Activate compiler-pom patch again
+
 * Sun Dec  8 2013 Jochen Schmitt <Jochen herr-schmitt de> - 2.10.3-9
 - Put the swing library into a seperate subpackage
 
