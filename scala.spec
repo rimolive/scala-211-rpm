@@ -21,7 +21,7 @@
 
 Name:           scala
 Version:        2.10.3
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        A hybrid functional/object-oriented language for the JVM
 BuildArch:      noarch
 Group:          Development/Languages
@@ -366,6 +366,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %doc docs/LICENSE
 
 %changelog
+* Sun Jun 08 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.10.3-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Fri Feb 21 2014 Jochen Schmitt <Jochen herr-schmitt de> - 2.10.3-11
 - Implenting usage of headless java (#1068518)
 - Fix rpmdeps version sanity check issue
