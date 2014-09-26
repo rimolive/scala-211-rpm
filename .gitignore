@@ -18,3 +18,5 @@ scala-2.7.7.final-sources.tgz
 /scala-2.10.3-bootstrap.tgz
 /scala-2.10.4.tgz
 /scala-2.10.4-bootstrap.tgz
+/v2.10.4.tar.gz
+/scala-2.10.4-build_xml.patch
