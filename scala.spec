@@ -24,7 +24,7 @@
 
 Name:           scala
 Version:        2.10.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A hybrid functional/object-oriented language for the JVM
 BuildArch:      noarch
 Group:          Development/Languages
@@ -338,10 +338,15 @@ install -d $RPM_BUILD_ROOT%{_mandir}/man1
 install -p -m 644 build/scaladoc/manual/man/man1/* $RPM_BUILD_ROOT%{_mandir}/man1
 
 %post
-update-mime-database %{_datadir}/mime &> /dev/null || :
+touch --no-create %{_datadir}/mime/packages &> /dev/null || :
 
 %postun
+if [ $1 -eq 0 ]; then
 update-mime-database %{_datadir}/mime &> /dev/null || :
+fi
+
+%posttrans
+update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 %files -f .mfiles
 %defattr(-,root,root,-)
@@ -395,6 +400,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %endif
 
 %changelog
+* Sat Sep 27 2014 Rex Dieter <rdieter@fedoraproject.org> 2.10.4-2
+- update/optimize mime scriptlets
+
 * Mon Sep 15 2014 William Benton <willb@redhat.com> - 2.10.4-1
 - updated to upstream version 2.10.4
 - fixes for Java 8 compatibility:  use scala 2.10.4 for bootstrapping
