@@ -12,7 +12,7 @@
 %global jline2_jar %{_javadir}/jline2.jar
 %endif
 %global scaladir %{_datadir}/scala
-%global bootstrap_build 1
+%global bootstrap_build 0
 %if 0%{?fedora} > 19
 %global apidoc %{_docdir}/%{name}-apidoc
 %else
@@ -24,9 +24,10 @@
 
 Name:           scala
 Version:        2.10.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A hybrid functional/object-oriented language for the JVM
 BuildArch:      noarch
+ExcludeArch:    %{arm}
 Group:          Development/Languages
 # License was confirmed to be standard BSD by fedora-legal
 # https://www.redhat.com/archives/fedora-legal-list/2007-December/msg00012.html
@@ -44,11 +45,6 @@ Source3:        scala.gitinfo
 # for bootstrapping under Java 8; this can be removed if
 # necessary after Scala 2.10.5 is released if it uses 2.10.4
 # for bootstrapping.
-
-# unfortunately, this has the same name as the source archive,
-# so we can't use a URL here.  Get this file by running 
-#   curl http://www.scala-lang.org/files/archive/scala-2.10.4.tgz \
-#       > scala-bin-2.10.4.tgz
 
 Source4:        http://www.scala-lang.org/files/archive/scala-2.10.4.tgz
 
@@ -142,8 +138,7 @@ Requires:       java >= 1:1.7.0
 %endif
 
 %description swing
-This package ontains the swing library for the scala programming lauguages. This library is
-required to develope GUI-releate applications in scala. The release provided by this package
+This package contains the swing library for the scala programming languages. This library is required to develope GUI-releate applications in scala. The release provided by this package
 is not the original version from upstream because this version is not compatible with JDK-1.7.
 
 %package -n ant-scala
