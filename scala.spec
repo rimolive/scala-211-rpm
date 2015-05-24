@@ -25,10 +25,9 @@
 
 Name:           scala
 Version:        2.10.4
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A hybrid functional/object-oriented language for the JVM
 BuildArch:      noarch
-ExcludeArch:    %{arm}
 Group:          Development/Languages
 # License was confirmed to be standard BSD by fedora-legal
 # https://www.redhat.com/archives/fedora-legal-list/2007-December/msg00012.html
@@ -398,6 +397,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %endif
 
 %changelog
+* Sun May 24 2015 Peter Robinson <pbrobinson@fedoraproject.org> 2.10.4-4
+- Drop ExcludeArch for ARM, can't be both noarch and arch exclusive
+
 * Wed Oct 1 2014 William Benton <willb@redhat.com> - 2.10.4-3
 - non-bootstrap build
 
