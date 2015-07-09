@@ -21,11 +21,11 @@
 
 %global junit_pkg junit
 
-%global bootstrap_build 0
+%global bootstrap_build 1
 
 Name:           scala
 Version:        2.10.4
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        A hybrid functional/object-oriented language for the JVM
 BuildArch:      noarch
 Group:          Development/Languages
@@ -397,6 +397,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %endif
 
 %changelog
+* Thu Jul 9 2015 William Benton <willb@redhat.com> - 2.10.4-6
+- bootstrap build
+
 * Fri Jun 19 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.10.4-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
