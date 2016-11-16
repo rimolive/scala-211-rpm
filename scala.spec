@@ -24,8 +24,8 @@
 %global bootstrap_build 0
 
 Name:           scala
-Version:        2.10.4
-Release:        9%{?dist}
+Version:        2.10.6
+Release:        1%{?dist}
 Summary:        A hybrid functional/object-oriented language for the JVM
 BuildArch:      noarch
 Group:          Development/Languages
@@ -395,6 +395,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %endif
 
 %changelog
+* Wed Nov 16 2016 William Benton <willb@redhat.com> - 2.10.6-1
+- upstream version bump
+
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.4-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
