@@ -1,34 +1,18 @@
 %global fullversion %{version}
 %global release_repository http://nexus.scala-tools.org/content/repositories/releases
 %global snapshot_repository http://nexus.scala-tools.org/content/repositories/snapshots
-%if 0%{?fedora} > 19
 %global jansi_jar %{_javadir}/jansi/jansi.jar
-%else
-%global jansi_jar %{_javadir}/jansi.jar
-%endif
-%if 0%{?fedora} > 20
 %global jline2_jar %{_javadir}/jline/jline.jar
-%else
-%global jline2_jar %{_javadir}/jline2.jar
-%endif
 %global scaladir %{_datadir}/scala
 
-%if 0%{?fedora} > 19
-%global apidoc %{_docdir}/%{name}-apidoc
-%else
-%global apidoc %{_docdir}/%{name}-apidoc-%{version}
-%endif
-
-%global junit_pkg junit
-
+%global want_jdk8 1
 %global bootstrap_build 0
 
 Name:           scala
 Version:        2.10.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A hybrid functional/object-oriented language for the JVM
 BuildArch:      noarch
-Group:          Development/Languages
 # License was confirmed to be standard BSD by fedora-legal
 # https://www.redhat.com/archives/fedora-legal-list/2007-December/msg00012.html
 License:        BSD
@@ -78,15 +62,10 @@ BuildRequires:  java-devel >= 1:1.7.0
 BuildRequires:  ant
 BuildRequires:  ant-junit
 BuildRequires:  ant-contrib
-%if 0%{?fedora} > 20
 BuildRequires:  jline >= 2.10
-%else
-BuildRequires:  jline2
-%endif
 BuildRequires:  javapackages-tools
-BuildRequires:  shtool
 BuildRequires:  aqute-bnd
-BuildRequires:  %{junit_pkg}
+BuildRequires:  junit
 BuildRequires:  felix-framework
 BuildRequires:  jpackage-utils
 
@@ -97,18 +76,8 @@ BuildRequires:  scala
 Requires:       jpackage-utils
 Requires:       jansi
 
-%if 0%{?fedora} > 20
 Requires:       java-headless >= 1:1.7.0
 Requires:       jline >= 2.10
-%global want_jdk8 1
-%else
-Requires:       java >= 1:1.7.0
-Requires:       jline2
-%global want_jdk8 0
-%endif
-
-Requires:       %{jansi_jar}
-Requires:       %{jline2_jar}
 
 %{?filter_setup:
 %filter_from_requires /ant/d;
@@ -123,7 +92,6 @@ fully interoperable with Java.
 
 %package apidoc
 Summary:        Documentation for the Scala programming language
-Group:          Documentation
 
 %description apidoc
 Scala is a general purpose programming language for the JVM that blends
@@ -132,12 +100,8 @@ reference and API documentation for the Scala programming language.
 
 %package swing
 Summary:        The swing library for the scala programming languages
-Group:          Development/Libraries
 Requires:       scala = %{version}-%{release}
-
-%if 0%{?fedora} > 20
 Requires:       java >= 1:1.7.0
-%endif
 
 %description swing
 This package contains the swing library for the scala programming languages. This library is required to develope GUI-releate applications in scala. The release provided by this package
@@ -145,7 +109,6 @@ is not the original version from upstream because this version is not compatible
 
 %package -n ant-scala
 Summary:        Development files for Scala
-Group:          Development/Languages
 Requires:       scala = %{version}-%{release}, ant
 
 %description -n ant-scala
@@ -156,7 +119,6 @@ the scala ant tasks.
 %if 0
 %package examples
 Summary:        Examples for the Scala programming language
-Group:          Development/Languages
 # Otherwise it will pick up some perl module
 Autoprov:       0
 Requires:       scala = %{version}-%{release}
@@ -169,7 +131,6 @@ the Scala programming language
 
 %package swing-examples
 Summary:        Examples for the Scala Swing library
-Group:          Development/Libraries
 Requires:       scala = %{version}-%{release}
 Requires:       ant
 
@@ -304,15 +265,15 @@ for libname in scala-compiler \
     scalap \
     scala-swing ; do
         install -m 644 build/pack/lib/$libname.jar $RPM_BUILD_ROOT%{_javadir}/scala/
-        shtool mkln -s $RPM_BUILD_ROOT%{_javadir}/scala/$libname.jar $RPM_BUILD_ROOT%{scaladir}/lib
+        ln -s $(abs2rel %{_javadir}/scala/$libname.jar %{scaladir}/lib) $RPM_BUILD_ROOT%{scaladir}/lib
         sed -i "s|@VERSION@|%{fullversion}|" src/build/maven/$libname-pom.xml
         sed -i "s|@RELEASE_REPOSITORY@|%{release_repository}|" src/build/maven/$libname-pom.xml
         sed -i "s|@SNAPSHOT_REPOSITORY@|%{snapshot_repository}|" src/build/maven/$libname-pom.xml
         install -pm 644 src/build/maven/$libname-pom.xml $RPM_BUILD_ROOT%{_mavenpomdir}/JPP.%{name}-$libname.pom
 %add_maven_depmap JPP.%{name}-$libname.pom %{name}/$libname.jar
 done
-shtool mkln -s $RPM_BUILD_ROOT%{jline2_jar} $RPM_BUILD_ROOT%{scaladir}/lib
-shtool mkln -s $RPM_BUILD_ROOT%{jansi_jar} $RPM_BUILD_ROOT%{scaladir}/lib
+ln -s $(abs2rel %{jline2_jar} %{scaladir}/lib) $RPM_BUILD_ROOT%{scaladir}/lib
+ln -s $(abs2rel %{jansi_jar} %{scaladir}/lib) $RPM_BUILD_ROOT%{scaladir}/lib
 
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/ant.d
 install -p -m 644 %{SOURCE24} $RPM_BUILD_ROOT%{_sysconfdir}/ant.d/scala
@@ -344,7 +305,6 @@ fi
 update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 %files -f .mfiles
-%defattr(-,root,root,-)
 %{_bindir}/*
 %dir %{_javadir}/%{name}
 %{_javadir}/%{name}/%{name}-compiler.jar
@@ -363,38 +323,39 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %doc docs/LICENSE
 
 %files swing
-%defattr(-,root,root,-)
 %{_datadir}/%{name}/lib/%{name}-swing.jar
 %{_javadir}/%{name}/%{name}-swing.jar
 %{_mavenpomdir}/JPP.%{name}-%{name}-swing.pom
 %doc docs/LICENSE
 
 %files -n ant-scala
-%defattr(-,root,root,-)
 # Following is plain config because the ant task classpath could change from
 # release to release
 %config %{_sysconfdir}/ant.d/*
 %doc docs/LICENSE
 
 %files apidoc
-%defattr(-,root,root,-)
 %doc build/scaladoc/library/*
 %doc docs/LICENSE
 
 %if 0
 %files examples
-%defattr(-,root,root,-)
 %{_datadir}/scala/examples
 %exclude %{_datadir}/scala/examples/swing 
 %doc docs/LICENSE
 
 %files swing-examples
-%defattr(-,root,root,-)
 %{_datadir}/scala/examples/swing 
 %doc docs/LICENSE
 %endif
 
 %changelog
+* Thu Jan  5 2017 Mikolaj Izdebski <mizdebsk@redhat.com> - 2.10.6-2
+- Update to current packaging guidelines
+- Remove legacy build conditionals
+- Remove file requires
+- Remove usage of shutil (not available on RHEL)
+
 * Wed Nov 16 2016 William Benton <willb@redhat.com> - 2.10.6-1
 - upstream version bump
 
