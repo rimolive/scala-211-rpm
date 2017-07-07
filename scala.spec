@@ -10,7 +10,7 @@
 
 Name:           scala
 Version:        2.10.6
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A hybrid functional/object-oriented language for the JVM
 BuildArch:      noarch
 # License was confirmed to be standard BSD by fedora-legal
@@ -350,6 +350,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %endif
 
 %changelog
+* Fri Jul 07 2017 Igor Gnatenko <ignatenko@redhat.com> - 2.10.6-4
+- Rebuild due to bug in RPM (RHBZ #1468476)
+
 * Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.6-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
