@@ -10,7 +10,7 @@
 
 Name:           scala
 Version:        2.10.6
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        A hybrid functional/object-oriented language for the JVM
 BuildArch:      noarch
 # License was confirmed to be standard BSD by fedora-legal
@@ -34,7 +34,7 @@ Source3:        scala.gitinfo
 Source4:        http://www.scala-lang.org/files/archive/scala-2.10.4.tgz
 %endif
 
-# Source0:        http://www.scala-lang.org/downloads/distrib/files/scala-sources-%{fullversion}.tgz
+# Source0:        http://www.scala-lang.org/downloads/distrib/files/scala-sources-%%{fullversion}.tgz
 # Change the default classpath (SCALA_HOME)
 Patch1:         scala-2.10.0-tooltemplate.patch
 # Use system jline2 instead of bundled jline2
@@ -67,7 +67,7 @@ BuildRequires:  javapackages-tools
 BuildRequires:  aqute-bnd
 BuildRequires:  junit
 BuildRequires:  felix-framework
-BuildRequires:  jpackage-utils
+BuildRequires:  javapackages-local
 
 %if !(0%{?bootstrap_build})
 BuildRequires:  scala
@@ -350,6 +350,10 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %endif
 
 %changelog
+* Thu Dec  7 2017 Mikolaj Izdebski <mizdebsk@redhat.com> - 2.10.6-6
+- Add missing BR on javapackages-local
+- Resolves: rhbz#1512883
+
 * Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.6-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
 
