@@ -1,0 +1,15 @@
+--- a/project/VersionUtil.scala
++++ b/project/VersionUtil.scala
+@@ -77,8 +77,10 @@ object VersionUtil {
+       Process(cmd).lines.head
+     }
+ 
+-    val date = executeTool("get-scala-commit-date")
+-    val sha = executeTool("get-scala-commit-sha").substring(0, 7) // The script produces 10 digits at the moment
++    //val date = executeTool("get-scala-commit-date")
++    //val sha = executeTool("get-scala-commit-sha").substring(0, 7) // The script produces 10 digits at the moment
++    val date = ""
++    val sha = ""
+ 
+     val Patch = """\d+\.\d+\.(\d+)""".r
+     def cross = base match {

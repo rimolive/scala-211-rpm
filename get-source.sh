@@ -4,6 +4,7 @@ set -x
 VER=$(fedpkg verrel | sed -e 's/^scala\-\(.*\)\-.*$/\1/')
 
 FNS=scala-$VER
+#FNS=scala-2.11.8
 
 rm -rf $FNS/
 git clone git://github.com/scala/scala.git $FNS

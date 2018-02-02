@@ -1,0 +1,6 @@
+index 35c88bab7d..27e88aa115 100644
+--- a/project/build.properties
++++ b/project/build.properties
+@@ -1 +1 @@
+-sbt.version=0.13.12
++sbt.version=0.13.13
